@@ -1,0 +1,13 @@
+table {
+    tr{
+        td, th{
+            text-align:right;
+
+            &.index-0{
+                text-align:left;
+            }
+        }
+    }
+    
+}
+

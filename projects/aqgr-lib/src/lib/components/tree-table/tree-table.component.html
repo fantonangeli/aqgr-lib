@@ -1,0 +1,50 @@
+ <ng-template #tplElement let-element let-pleft="pleft" let-level="level">
+    <tr (click)="onElementClick(element)" [ngClass]="'level-'+level">
+        <ng-container  *ngFor="let field of element; let first = first; let last = last; let i=index">
+            <td class="align-top text-truncate" *ngIf="first" [ngStyle]="{'padding-left': (pleft+20)+'px'}" [ngClass]="'index-'+i" class="text-break">
+                <span class="font-weight-bold h6">{{getToggleIcon(element)}}</span> 
+                &nbsp;{{field}}
+                <ng-template *ngTemplateOutlet="firstFieldAppendTpl; context: {$implicit: element}"></ng-template>
+            </td>
+            <td class="text-truncate" *ngIf="!first" [ngClass]="'index-'+i" class="text-break">
+                {{field}}
+            </td>
+        </ng-container>
+    </tr>
+
+
+    <ng-container *ngIf="element.toggle">
+        <ng-container *ngFor="let child of element.children">
+                <ng-template *ngTemplateOutlet="tplElement; context: {$implicit: child, pleft:(pleft+20), level:level+1}"></ng-template>
+        </ng-container>
+    </ng-container>
+</ng-template>
+
+
+<div class="table-responsive">
+    <table class="fao-expandtable table table-striped table-bordered">
+        <thead>
+            <tr>
+                <th class="align-top" *ngFor="let colname of columns; let i = index" [ngClass]="'index-'+i" scope="col">{{colname}}</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            <ng-container *ngFor="let element of data">
+                <ng-template *ngTemplateOutlet="tplElement; context: {$implicit: element, pleft:0, level:0}"></ng-template>
+            </ng-container>
+
+            <tr *ngIf="enableTotal">
+                <ng-container  *ngFor="let field of totalRowData; let first = first; let last = last; let i = index">
+                    <td class="align-top text-truncate" *ngIf="first" [ngStyle]="{'padding-left': '20px'}" [ngClass]="'index-'+i">
+                        {{field}}
+                    </td>
+                    <td class="text-truncate" *ngIf="!first" class="align-top" [ngClass]="'index-'+i">
+                        {{field}}
+                    </td>
+                </ng-container>
+            </tr>
+
+        </tbody>
+    </table>
+</div>
