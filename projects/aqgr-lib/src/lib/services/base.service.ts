@@ -31,14 +31,16 @@ export class BaseService {
      * @param {string} url the rest url
      * @param {object} params the params to send to the service
      * @param {number} limit (optional) the limit
+     * @param {string} sortBy (optional) sort by field
      * @returns {Observable}
      */
-    protected _getByParams(serviceName:string, url:string, params:any={}, limit:number=0):Observable<any> {
+    protected _getByParams(serviceName:string, url:string, params:any={}, limit:number=0, sortBy?:string):Observable<any> {
         let cacheid;
 
         this.logger.service(serviceName+":get", params);
 
         if(limit>0) params[this.paramsNames.limit]=limit;
+        if(sortBy) params[this.paramsNames.sortBy]=sortBy;
 
         cacheid=JSON.stringify(params);
 
@@ -58,14 +60,15 @@ export class BaseService {
      * @param {string} url the rest url
      * @param {SearchServiceParams} params the params to send to the service
      * @param {number} limit (optional) the limit
+     * @param {string} sortBy (optional) sort by field
      * @returns {Observable}
      */
-    protected _getAll(serviceName:string, url:string, ssp:SearchServiceParams=new SearchServiceParams(), limit:number=0):Observable<any> {
+    protected _getAll(serviceName:string, url:string, ssp:SearchServiceParams=new SearchServiceParams(), limit:number=0, sort?:string):Observable<any> {
         let params={}, cacheid;
 
         params=this.utilsService.getRestParams(ssp, this.paramsNames);
 
-        return this._getByParams(serviceName,url,params,limit);
+        return this._getByParams(serviceName,url,params,limit,sort);
     }
 
 

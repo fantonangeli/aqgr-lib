@@ -56,4 +56,9 @@ export class SearchServiceParams {
      */
     limit: number = 10;
 
+    /**
+     * sort field (name is default)
+     */
+    sort: string = "name";
+
 }
