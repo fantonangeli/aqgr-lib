@@ -1,15 +1,20 @@
  <ng-template #tplElement let-element let-pleft="pleft" let-level="level">
     <tr (click)="onElementClick(element)" [ngClass]="'level-'+level">
-        <ng-container  *ngFor="let field of element; let first = first; let last = last; let i=index">
-            <td class="align-top text-truncate" *ngIf="first" [ngStyle]="{'padding-left': (pleft+20)+'px'}" [ngClass]="'index-'+i" class="text-break">
-                <span class="font-weight-bold h6">{{getToggleIcon(element)}}</span> 
-                &nbsp;{{field}}
-                <ng-template *ngTemplateOutlet="firstFieldAppendTpl; context: {$implicit: element}"></ng-template>
-            </td>
-            <td class="text-truncate" *ngIf="!first" [ngClass]="'index-'+i" class="text-break">
-                {{field}}
+
+        <ng-container *ngFor="let col of columnDefinitions; let i=index; let first = first; let last = last">
+            <td [ngClass]="['align-top text-truncate', col.cellClass,'index-'+i]" [ngStyle]="{'padding-left': (first?(pleft+20+'px'):0)}">
+                <ng-container *ngIf="first">
+                    <span class="font-weight-bold h6">{{getToggleIcon(element)}}</span> 
+                    &nbsp;
+                </ng-container>
+                <ng-template
+                    [ngTemplateOutlet]="col.cellTemplate"
+                    [ngTemplateOutletContext]="{value:element[col?.prop], prop:col?.prop, level:level}"
+                    >
+                </ng-template>
             </td>
         </ng-container>
+
     </tr>
 
 
@@ -25,7 +30,15 @@
     <table class="fao-expandtable table table-striped table-bordered">
         <thead>
             <tr>
-                <th class="align-top" *ngFor="let colname of columns; let i = index" [ngClass]="'index-'+i" scope="col">{{colname}}</th>
+                <ng-container *ngFor="let col of columnDefinitions; let colIndex=index">
+                    <th [ngClass]="['align-top', col.headerClass,'index-'+colIndex]" scope="col">
+                        <ng-template
+                            [ngTemplateOutlet]="col.headerTemplate"
+                            [ngTemplateOutletContext]="{prop:col?.prop}"
+                            >
+                        </ng-template>
+                    </th>
+                </ng-container>
             </tr>
         </thead>
         <tbody>

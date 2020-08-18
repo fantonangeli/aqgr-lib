@@ -4,13 +4,13 @@
     "directive-selector": [
       true,
       "attribute",
-      "lib",
+      "aqgrlib",
       "camelCase"
     ],
     "component-selector": [
       true,
       "element",
-      "lib",
+      "aqgrlib",
       "kebab-case"
     ],
     "whitespace": false

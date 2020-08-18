@@ -1,17 +1,21 @@
-import { Component, OnChanges, Input, ContentChild, TemplateRef, ElementRef } from '@angular/core';
+import { Component, OnChanges, Input, ContentChild, ContentChildren, TemplateRef, ElementRef, QueryList, ViewContainerRef, ViewChild } from '@angular/core';
+import { TreeTableColumnDirective } from './tree-table-column.directive';
+import { TreeTableColumnCellDirective } from './tree-table-column-cell.directive';
+
 
 @Component({
-  selector: 'app-tree-table',
+  selector: 'aqgrlib-tree-table',
   templateUrl: './tree-table.component.html',
   styleUrls: ['./tree-table.component.scss']
 })
 export class TreeTableComponent implements OnChanges {
 
     @Input() data: any[] = [];
-    @Input() columns: any[] = [];
     @Input() childColumns: any[] = [];
 
     @ContentChild('firstFieldAppendTpl', {static: false}) firstFieldAppendTpl: TemplateRef<ElementRef>;
+    @ContentChildren(TreeTableColumnDirective) columnDefinitions: QueryList<TreeTableColumnDirective>;
+
 
     /**
      * enable the total row
@@ -116,6 +120,23 @@ export class TreeTableComponent implements OnChanges {
         }
     }
 
+  public get columnTemplates(): { [key: string]: TemplateRef<any> } {
+      const columnTemplates: { [key: string]: TemplateRef<any> } = {};
+
+      if (!this.columnDefinitions) {
+          return {};
+      }
+
+      for (const columnDefinition of this.columnDefinitions.toArray()) {
+          columnTemplates[columnDefinition.prop] = columnDefinition.columnTemplate;
+      }
+      return columnTemplates;
+  }
+
+
+
+
+
     /**
      * intialize the data
      *
@@ -124,13 +145,13 @@ export class TreeTableComponent implements OnChanges {
      */
     initData(data=[]){
         return data.map(e=>{
-            e.children=e.splice(-1, 1)[0].map(c=>{
+            e.children=e.children.map(c=>{
                 c.parent=e;
-                c.children=c.splice(-1, 1)[0];
                 return c;
             });
             return e;
         });
+
     }
 
     ngOnChanges() {
