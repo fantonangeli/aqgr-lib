@@ -14,7 +14,7 @@ Run `ng build aqgr-lib --watch` to build the project. The build artifacts will b
 ## Build
 
 Run `ng build aqgr-lib` to build the project. The build artifacts will be stored in the `dist/` directory.
-Run `npm link aqgr-lib` from the /build/aqgr-lib folder
+Run `npm link` from the /build/aqgr-lib folder
 
 ## Publishing
 
