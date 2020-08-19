@@ -9,7 +9,7 @@
                 </ng-container>
                 <ng-template
                     [ngTemplateOutlet]="col.cellTemplate"
-                    [ngTemplateOutletContext]="{value:element[col?.prop], prop:col?.prop, level:level}"
+                    [ngTemplateOutletContext]="{value:element[col?.prop], prop:col?.prop, level:level, row:element}"
                     >
                 </ng-template>
             </td>
