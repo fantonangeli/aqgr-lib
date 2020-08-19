@@ -11,7 +11,6 @@ import { TreeTableColumnCellDirective } from './tree-table-column-cell.directive
 export class TreeTableComponent implements OnChanges {
 
     @Input() data: any[] = [];
-    @Input() childColumns: any[] = [];
 
     @ContentChild('firstFieldAppendTpl', {static: false}) firstFieldAppendTpl: TemplateRef<ElementRef>;
     @ContentChildren(TreeTableColumnDirective) columnDefinitions: QueryList<TreeTableColumnDirective>;
@@ -68,9 +67,9 @@ export class TreeTableComponent implements OnChanges {
      */
     getToggleIcon(element:any=[]):string{
 
-        if(!element.children || !element.children.length) return "";
+        if(!element._children || !element._children.length) return "";
 
-        if(!element.toggle) return "+";
+        if(!element._toggle) return "+";
 
         return "-";
     }
@@ -85,8 +84,8 @@ export class TreeTableComponent implements OnChanges {
         if(!elements) return;
 
         for (var i = 0, len = elements.length; i < len; i++) {
-            elements[i].toggle=false;
-            this.closeAll(elements[i].children);
+            elements[i]._toggle=false;
+            this.closeAll(elements[i]._children);
         }
     }
 
@@ -98,8 +97,8 @@ export class TreeTableComponent implements OnChanges {
     openElement(element){
         if(!element) return;
 
-        element.toggle=true;
-        this.openElement(element.parent);
+        element._toggle=true;
+        this.openElement(element._parent);
     }
 
     /**
@@ -108,15 +107,15 @@ export class TreeTableComponent implements OnChanges {
      * @param {Object} element the element to expand
      */
     onElementClick(element){
-        let initialV=element.toggle;
-        if(!element || !element.children) return;
+        let initialV=element._toggle;
+        if(!element || !element._children) return;
 
         this.closeAll(this.data);
 
         this.openElement(element);
 
         if (initialV) {
-            element.toggle=false;
+            element._toggle=false;
         }
     }
 
@@ -145,8 +144,8 @@ export class TreeTableComponent implements OnChanges {
      */
     initData(data=[]){
         return data.map(e=>{
-            e.children=e.children.map(c=>{
-                c.parent=e;
+            e._children=(e._children || []).map(c=>{
+                c._parent=e;
                 return c;
             });
             return e;

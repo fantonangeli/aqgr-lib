@@ -18,8 +18,8 @@
     </tr>
 
 
-    <ng-container *ngIf="element.toggle">
-        <ng-container *ngFor="let child of element.children">
+    <ng-container *ngIf="element._toggle">
+        <ng-container *ngFor="let child of element._children">
                 <ng-template *ngTemplateOutlet="tplElement; context: {$implicit: child, pleft:(pleft+20), level:level+1}"></ng-template>
         </ng-container>
     </ng-container>
