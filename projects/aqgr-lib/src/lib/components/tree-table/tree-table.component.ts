@@ -1,6 +1,6 @@
 import { Component, OnChanges, Input, ContentChild, ContentChildren, TemplateRef, ElementRef, QueryList, ViewContainerRef, ViewChild } from '@angular/core';
 import { TreeTableColumnDirective } from './tree-table-column.directive';
-import { TreeTableColumnCellDirective } from './tree-table-column-cell.directive';
+// import { TreeTableColumnCellDirective } from './tree-table-column-cell.directive';
 
 
 @Component({
@@ -17,47 +17,14 @@ export class TreeTableComponent implements OnChanges {
 
 
     /**
-     * enable the total row
+     * enable the summary row
      *
      */
-    @Input() enableTotal: boolean=false;
+    @Input() summaryRow = false;
 
-    totalRowData:any[]=[];
 
     constructor() { }
 
-
-    /**
-     * get the total row data
-     *
-     * @param {any[]} data the table data
-     * @returns {any[]} the row, empty array if error
-     */
-    getTotalRow(data:any[]):any[]{
-        let totalRow=[];
-
-        if(!data || !data.length) return [];
-
-        totalRow=data.reduce(
-            (r, a) => 
-            r.map(
-                (b, i) => 
-                (!i)?
-                    null:
-                    parseFloat(a[i].toString().replace(/,/g,"")) + parseFloat(b)
-            )
-        ).map(
-            (e, i) =>
-            (!i)?
-                null:
-                Number(e).toLocaleString('en-US'),
-        );
-
-        totalRow[0]="TOTAL";
-
-
-        return totalRow;
-    }
 
     /**
      * get the toggle icon for the template 
@@ -156,7 +123,6 @@ export class TreeTableComponent implements OnChanges {
     ngOnChanges() {
         this.data=this.initData(this.data);
 
-        if(this.enableTotal) this.totalRowData=this.getTotalRow(this.data);
     }
 
 

@@ -47,13 +47,14 @@
                 <ng-template *ngTemplateOutlet="tplElement; context: {$implicit: element, pleft:0, level:0}"></ng-template>
             </ng-container>
 
-            <tr *ngIf="enableTotal">
-                <ng-container  *ngFor="let field of totalRowData; let first = first; let last = last; let i = index">
-                    <td class="align-top text-truncate" *ngIf="first" [ngStyle]="{'padding-left': '20px'}" [ngClass]="'index-'+i">
-                        {{field}}
-                    </td>
-                    <td class="text-truncate" *ngIf="!first" class="align-top" [ngClass]="'index-'+i">
-                        {{field}}
+            <tr *ngIf="summaryRow" class="summary">
+                <ng-container *ngFor="let col of columnDefinitions; let colIndex=index">
+                    <td [ngClass]="['align-top text-truncate', col.cellClass,'index-'+colIndex]" scope="col">
+                        <ng-template
+                            [ngTemplateOutlet]="col.summaryTemplate"
+                            [ngTemplateOutletContext]="{prop:col?.prop}"
+                            >
+                        </ng-template>
                     </td>
                 </ng-container>
             </tr>

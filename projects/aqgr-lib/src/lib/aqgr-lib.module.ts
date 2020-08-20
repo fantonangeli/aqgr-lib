@@ -5,6 +5,7 @@ import { TreeTableComponent } from './components/tree-table/tree-table.component
 import { TreeTableColumnDirective } from './components/tree-table/tree-table-column.directive';
 import { TreeTableColumnCellDirective } from './components/tree-table/tree-table-column-cell.directive';
 import { TreeTableColumnHeaderDirective } from './components/tree-table/tree-table-column-header.directive';
+import { TreeTableColumnSummaryDirective } from './components/tree-table/tree-table-column-summary.directive';
 
 
 
@@ -14,7 +15,8 @@ import { TreeTableColumnHeaderDirective } from './components/tree-table/tree-tab
       TreeTableComponent,
       TreeTableColumnDirective,
       TreeTableColumnCellDirective,
-      TreeTableColumnHeaderDirective
+      TreeTableColumnHeaderDirective,
+      TreeTableColumnSummaryDirective
   ],
   imports: [
       CommonModule
@@ -23,7 +25,8 @@ import { TreeTableColumnHeaderDirective } from './components/tree-table/tree-tab
       TreeTableComponent,
       TreeTableColumnDirective,
       TreeTableColumnCellDirective,
-      TreeTableColumnHeaderDirective
+      TreeTableColumnHeaderDirective,
+      TreeTableColumnSummaryDirective
   ]
 })
 export class AqgrLibModule {
