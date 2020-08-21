@@ -2,7 +2,7 @@
     <tr (click)="onElementClick(element)" [ngClass]="'level-'+level">
 
         <ng-container *ngFor="let col of columnDefinitions; let i=index; let first = first; let last = last">
-            <td [ngClass]="['align-top text-truncate', col.cellClass,'index-'+i]" [ngStyle]="{'padding-left': (first?(pleft+20+'px'):0)}">
+            <td [ngClass]="['align-top text-truncate', col.cellClass,'index-'+i]" [ngStyle]="{'padding-left': (first?(pleft+20+'px'):null)}">
                 <ng-container *ngIf="first">
                     <span class="font-weight-bold h6">{{getToggleIcon(element)}}</span> 
                     &nbsp;
