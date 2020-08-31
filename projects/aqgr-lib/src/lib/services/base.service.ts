@@ -24,6 +24,19 @@ export class BaseService {
         this.utilsService=new AqgrLibUtilsService();
     }
 
+    protected _edit(serviceName: string, url: string, data): Observable<any> {
+        this.http.put(url,data).subscribe(
+            val => {
+                this.logger.service(serviceName+":put", data);
+            },
+            response => {
+                this.logger.error(serviceName+":put", data, response);
+            }
+        );
+
+        return null;
+    }
+
     /**
      * get all elements or send the service search params
      *

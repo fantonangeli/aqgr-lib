@@ -24,8 +24,8 @@ export class LoggerService {
      * @param {string} msg the message
      * @param {any} data debugging data
      */
-    error(msg: string, data:any="") {
-        this.log(msg, data, "red");
+    error(msg: string, ...data) {
+        this.log(msg, "red", data);
     }
 
     /**
@@ -37,7 +37,7 @@ export class LoggerService {
     service(servicename: string, params:any="") {
         if(!this.loggingEnabled) return;
 
-        this.log("Service:"+ servicename, params, "green");
+        this.log("Service:"+ servicename, "green", params);
     }
 
 
@@ -45,15 +45,15 @@ export class LoggerService {
      * just a logger
      *
      * @param {string} msg message to show
-     * @param {any} data the data 
      * @param {string} color pick your color
+     * @param {any} data the data 
      */
-    log(msg: any, data:any, color:string="") {
+    log(msg: any, color:string="", ...data) {
         let logmsg="";
 
         logmsg=this.getTime()+" "+msg;
 
-        console.log("%c"+logmsg, `color: ${color}; font-weight: bold;`, data);
+        console.log("%c"+logmsg, `color: ${color}; font-weight: bold;`, ...data);
     }
 
 }
