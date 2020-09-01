@@ -1,7 +1,7 @@
 import { Injectable, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { shareReplay, map } from 'rxjs/operators';
+import { Observable, throwError } from 'rxjs';
+import { shareReplay, map, tap, catchError } from 'rxjs/operators';
 import { LoggerService } from './logger.service';
 import {SearchServiceParams} from '../namespace';
 import {AqgrLibUtilsService} from './aqgr-lib-utils.service';
@@ -24,17 +24,26 @@ export class BaseService {
         this.utilsService=new AqgrLibUtilsService();
     }
 
-    protected _edit(serviceName: string, url: string, data): Observable<any> {
-        this.http.put(url,data).subscribe(
-            val => {
-                this.logger.service(serviceName+":put", data);
-            },
-            response => {
-                this.logger.error(serviceName+":put", data, response);
-            }
-        );
+    /**
+     * edit a record.
+     *
+     * @param {string} serviceName the name of the service
+     * @param {string} url the rest url
+     * @param {any} data to be saved
+     * @returns {Observable<any>}
+     */
+    protected _edit(serviceName: string, url: string, data:any): Observable<any> {
+        const observable=this.http.put(url,data).pipe(
+                tap(restdata=> {
+                    this.logger.service(serviceName+":put", restdata);
+                }),
+                catchError(error=> {
+                    this.logger.error(serviceName+":put", data, error);
+                    return throwError(error);
+                })
+            );
 
-        return null;
+        return observable;
     }
 
     /**
