@@ -76,6 +76,18 @@ export class BaseService {
     }
 
     /**
+     * get an element by id
+     *
+     * @param {string} serviceName the name of the service
+     * @param {string} url the rest url
+     * @param {string | number} id the id of the element
+     * @returns {Observable}
+     */
+    protected _getById(serviceName:string, url:string, id:string|number):Observable<any> {
+        return this._getByParams(serviceName,url+"/"+id);
+    }
+
+    /**
      * get all elements or send the service search params
      *
      * @param {string} serviceName the name of the service
