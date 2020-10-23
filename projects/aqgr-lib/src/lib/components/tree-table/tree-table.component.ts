@@ -17,7 +17,14 @@ export class TreeTableComponent implements OnChanges {
 
 
     /**
-     * enable the summary row
+     * enable the count of subnodes for each node. Default false
+     * A property count will be available in the cell template
+     *
+     */
+    @Input() enableCount = false;
+
+    /**
+     * enable the summary row. Default false
      *
      */
     @Input() summaryRow = false;
@@ -100,7 +107,38 @@ export class TreeTableComponent implements OnChanges {
   }
 
 
+    /**
+     * add a count of nodes and subnodes to a node
+     *
+     * @param data the table data
+     * @returns the number of subnodes
+     */
+    private addCountToNode(data:any):number{
+        if(!data) return 0;
 
+        if(!data._children) return 1;
+
+        data._count=0;
+
+        for (let i = data._children.length - 1; i >= 0; i--) {
+            data._count+=this.addCountToNode(data._children[i]);
+        }
+
+        return data._count;
+    }
+
+
+    /**
+     * add a count of subnodes to the table data
+     *
+     * @param {} data
+     * @returns {void}
+     */
+    public addCount(data=[]): void {
+        for (let i = 0, len = data.length; i < len; i++) {
+            this.addCountToNode(data[i]);
+        }
+    }
 
 
     /**
@@ -122,7 +160,9 @@ export class TreeTableComponent implements OnChanges {
 
     ngOnChanges() {
         this.data=this.initData(this.data);
-
+        if(this.enableCount) {
+            this.addCount(this.data);
+        }
     }
 
 
