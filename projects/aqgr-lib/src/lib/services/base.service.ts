@@ -84,7 +84,19 @@ export class BaseService {
      * @returns {Observable}
      */
     protected _getById(serviceName:string, url:string, id:string|number):Observable<any> {
-        return this._getByParams(serviceName,url+"/"+id);
+        let cacheid;
+
+        this.logger.service(serviceName+":getById", {id});
+
+        cacheid=JSON.stringify({id});
+
+        if (!this.cache$[cacheid] || !this.enableCache) {
+            this.cache$[cacheid] = this.http.get(url+"/"+id).pipe(
+                shareReplay()
+            );
+        }
+
+        return this.cache$[cacheid];
     }
 
     /**
