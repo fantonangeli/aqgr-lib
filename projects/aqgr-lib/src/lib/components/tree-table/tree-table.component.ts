@@ -12,7 +12,7 @@ export class TreeTableComponent implements OnChanges {
 
     @Input() data: any[] = [];
 
-    @ContentChild('firstFieldAppendTpl', {static: false}) firstFieldAppendTpl: TemplateRef<ElementRef>;
+    @ContentChild('firstFieldAppendTpl') firstFieldAppendTpl: TemplateRef<ElementRef>;
     @ContentChildren(TreeTableColumnDirective) columnDefinitions: QueryList<TreeTableColumnDirective>;
 
 
