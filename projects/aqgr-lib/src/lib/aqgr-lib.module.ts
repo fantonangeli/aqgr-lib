@@ -30,7 +30,7 @@ import { TreeTableColumnSummaryDirective } from './components/tree-table/tree-ta
   ]
 })
 export class AqgrLibModule {
-  static forRoot(pageService): ModuleWithProviders {
+  static forRoot(pageService): ModuleWithProviders<AqgrLibModule> {
     return {
       ngModule: AqgrLibModule,
       providers: [
